@@ -43,8 +43,11 @@ C:\>dopu-usermode-injector.exe 1234 dopu-64bit-usermode-shellcode.bin somelibrar
 ## More information 
 
 A full analysis of the usermode shellcode of DOUBLEPULSAR:
+
 <LINK_COMING_VERY_SOON>
 
 Prior work on the kernel component of DOUBLEPULSAR:
+
 https://www.countercept.com/our-thinking/analyzing-the-doublepulsar-kernel-dll-injection-technique/
+
 https://zerosum0x0.blogspot.co.uk/2017/04/doublepulsar-initial-smb-backdoor-ring.html
