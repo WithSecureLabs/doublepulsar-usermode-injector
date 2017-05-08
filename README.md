@@ -23,10 +23,10 @@ C:\>DOUBLEPULSAR-usermode-injector.exe
 USAGE: <pid> <shellcode_file> <dll_to_inject> <ordinal_to_execute> [use_CreateRe
 moteProcess]
 
-The last argument is optional, if specified 'true' then CreateRemoteProcess will be used instead of using an APC call 
-which is the default way Doublepulsar works. This is to allow people to test it out in different ways.
-The default is using APC. This will inject into ALL threads in the target, which makes it more likely one of them will 
-trigger quickly. This is only suitable for testing as it may be undesirable to call the payload more than once.
+The last argument is optional, if specified 'true' then CreateRemoteProcess will be used instead of using an APC 
+call which is the default way Doublepulsar works. This is to allow people to test it out in different ways.
+The default is using APC. This will inject into ALL threads in the target, which makes it more likely one of them 
+will trigger quickly. This is only suitable for testing as it may be undesirable to call the payload more than once.
 ```
 
 For example, inject `somelibrary.dll` into process `1234` using an Asynchronous Procedure Call (APC) and call ordinal `1`:
