@@ -46,7 +46,7 @@ C:\>dopu-usermode-injector.exe 1234 dopu-64bit-usermode-shellcode.bin somelibrar
 
 A full analysis of the usermode shellcode of DOUBLEPULSAR:
 
-<LINK_COMING_VERY_SOON>
+https://www.countercept.com/our-thinking/doublepulsar-usermode-analysis-generic-reflective-dll-loader/
 
 Prior work on the kernel component of DOUBLEPULSAR:
 
