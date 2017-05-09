@@ -180,7 +180,7 @@ void inject(DWORD pid, BUFFER_WITH_SIZE payload, BOOL useCreateRemoteProcess)
 					threadId = threadEntry.th32ThreadID;
 
 					// We inject into all threads, this makes it more likely one will fire the APC
-					// but it may ruin more than once.
+					// but it may run more than once.
 					// While this is not ideal, it serves for testing.
 
 					printf("Using thread: %i\n", threadId);
